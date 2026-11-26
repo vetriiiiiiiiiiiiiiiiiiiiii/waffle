@@ -2,7 +2,7 @@
 # Certbot adds the HTTPS (443) block and the HTTP→HTTPS redirect.
 
 upstream waffle_story {
-    server 127.0.0.1:3000;
+    server 127.0.0.1:__PORT__;
     keepalive 32;
 }
 

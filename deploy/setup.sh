@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Waffle Story — first-time VPS setup (Ubuntu 22.04/24.04 or Debian 12).
 #
-#   sudo bash setup.sh <domain> <email-for-ssl> [repo-url] [branch]
+#   sudo PORT=3001 bash setup.sh <domain> <email-for-ssl> [repo-url] [branch]
+#
+# PORT is the local port Next.js listens on (default 3000). Pick a free one if
+# another app on this server already uses 3000.
 #
 # Installs Node 22, PM2, Nginx and Certbot, clones and builds the site,
 # runs it under PM2 as user "waffle", puts Nginx in front and gets HTTPS.
@@ -12,6 +15,7 @@ DOMAIN="${1:-}"
 EMAIL="${2:-}"
 REPO="${3:-https://github.com/vetriiiiiiiiiiiiiiiiiiiiii/waffle.git}"
 BRANCH="${4:-main}"
+PORT="${PORT:-3000}"
 APP_USER="waffle"
 APP_DIR="/var/www/waffle-story"
 SITE="waffle-story"
@@ -52,7 +56,11 @@ fi
 say "App user and code"
 id "$APP_USER" >/dev/null 2>&1 || useradd --create-home --shell /bin/bash "$APP_USER"
 mkdir -p "$(dirname "$APP_DIR")"
+if ss -ltn "( sport = :$PORT )" | grep -q LISTEN && ! sudo -u "$APP_USER" pm2 describe waffle-story >/dev/null 2>&1; then
+  die "Port $PORT is already used by another app. Re-run with a free one, e.g.: sudo PORT=3001 bash setup.sh $DOMAIN $EMAIL"
+fi
 if [[ -d "$APP_DIR/.git" ]]; then
+  chown -R "$APP_USER:$APP_USER" "$APP_DIR"
   sudo -u "$APP_USER" git -C "$APP_DIR" fetch --quiet origin "$BRANCH"
   sudo -u "$APP_USER" git -C "$APP_DIR" reset --hard "origin/$BRANCH"
 else
@@ -63,6 +71,7 @@ fi
 say "Environment"
 cat > "$APP_DIR/.env.production" <<ENV
 NEXT_PUBLIC_SITE_URL=https://$DOMAIN
+PORT=$PORT
 ENV
 chown "$APP_USER:$APP_USER" "$APP_DIR/.env.production"
 
@@ -74,21 +83,21 @@ sudo -u "$APP_USER" bash -c "cd '$APP_DIR' && pm2 startOrReload deploy/ecosystem
 pm2 startup systemd -u "$APP_USER" --hp "/home/$APP_USER" >/dev/null
 systemctl enable "pm2-$APP_USER" >/dev/null 2>&1 || true
 
-say "Waiting for the app on 127.0.0.1:3000"
+say "Waiting for the app on 127.0.0.1:$PORT"
 for i in $(seq 1 30); do
-  curl -fsS -o /dev/null http://127.0.0.1:3000/ && break
+  curl -fsS -o /dev/null "http://127.0.0.1:$PORT/" && break
   sleep 1
   [[ $i -eq 30 ]] && die "The app didn't start. Check: sudo -u $APP_USER pm2 logs waffle-story"
 done
 
 say "Nginx"
-sed "s/__DOMAIN__/$DOMAIN/g" "$APP_DIR/deploy/nginx.conf.template" > "/etc/nginx/sites-available/$SITE"
+sed -e "s/__DOMAIN__/$DOMAIN/g" -e "s/__PORT__/$PORT/g" "$APP_DIR/deploy/nginx.conf.template" > "/etc/nginx/sites-available/$SITE"
 # only answer for www if it actually has DNS
 if [[ -z "$(dig +short "www.$DOMAIN" A)" ]]; then
   sed -i "s/ www\.$DOMAIN//" "/etc/nginx/sites-available/$SITE"
 fi
 ln -sf "/etc/nginx/sites-available/$SITE" "/etc/nginx/sites-enabled/$SITE"
-rm -f /etc/nginx/sites-enabled/default
+# other sites on this server (including the default one) are left untouched
 nginx -t
 systemctl reload nginx
 

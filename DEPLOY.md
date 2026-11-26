@@ -1,6 +1,6 @@
 # Deploying Waffle Story to a VPS
 
-The setup: **Node 22 + PM2 + Nginx + Let's Encrypt** on Ubuntu 22.04/24.04 or Debian 12. Next.js runs under PM2 on `127.0.0.1:3000`, which restarts it on crash and on reboot. Nginx serves it to the world on ports 80/443 and caches the static assets.
+The setup: **Node 22 + PM2 + Nginx + Let's Encrypt** on Ubuntu 22.04/24.04 or Debian 12. Next.js runs under PM2 on `127.0.0.1:3000` (or the `PORT` you choose), which restarts it on crash and on reboot. Nginx serves it to the world on ports 80/443 and caches the static assets.
 
 ```
 browser ──https──▶ Nginx :443 ──▶ Next.js (PM2, 127.0.0.1:3000)
@@ -28,6 +28,12 @@ curl -fsSLO https://raw.githubusercontent.com/vetriiiiiiiiiiiiiiiiiiiiii/waffle/
 
 ```bash
 sudo bash setup.sh yourdomain.com you@example.com
+```
+
+**Something else already on port 3000?** Pick a free port. It's saved in `.env.production`, so updates keep it:
+
+```bash
+sudo PORT=3001 bash setup.sh yourdomain.com you@example.com
 ```
 
 The script takes about 5–10 minutes. It installs everything, builds the site into `/var/www/waffle-story`, starts it as the `waffle` user and turns on HTTPS. When it finishes, open `https://yourdomain.com`.
@@ -59,7 +65,7 @@ It pulls `main`, reinstalls, rebuilds and reloads PM2. Requests made while the b
 | --- | --- |
 | `deploy/setup.sh` | First-time install and deploy. Safe to re-run. |
 | `deploy/update.sh` | Pull, build, reload. |
-| `deploy/ecosystem.config.cjs` | PM2 process definition (port 3000, localhost only, restarts if memory goes over 600 MB). |
+| `deploy/ecosystem.config.cjs` | PM2 process definition (localhost only, port from `PORT=` in `.env.production`, default 3000; restarts if memory goes over 600 MB). |
 | `deploy/nginx.conf.template` | Nginx site: proxy, gzip, long cache for `/_next/static`, one week for `/art` and `/textures`, 10 MB upload limit. |
 | `/var/www/waffle-story/.env.production` | Written by the setup script: `NEXT_PUBLIC_SITE_URL=https://yourdomain.com`, used for Open Graph and schema.org URLs. |
 
