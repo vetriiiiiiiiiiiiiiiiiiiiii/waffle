@@ -1,0 +1,34 @@
+[
+  {
+    "id": "trichy-thillai", "name": "Waffle Story · Thillai Nagar", "city": "Tiruchirappalli",
+    "street": "11th Cross, Thillai Nagar", "postcode": "620018", "region": "Tamil Nadu",
+    "hours": "11:00–23:00", "phone": "+91 00000 00000",
+    "map": { "x": 54, "y": 58 }, "geo": { "lat": 10.8268, "lng": 78.6849 },
+    "colouring": { "now": "the awning", "done": ["the door", "the sign"], "progress": 0.62 },
+    "opened": "Chapter one, 2026"
+  },
+  {
+    "id": "trichy-cantonment", "name": "Waffle Story · Cantonment", "city": "Tiruchirappalli",
+    "street": "Williams Road, Cantonment", "postcode": "620001", "region": "Tamil Nadu",
+    "hours": "10:00–22:30", "phone": "+91 00000 00000",
+    "map": { "x": 62, "y": 70 }, "geo": { "lat": 10.8018, "lng": 78.6856 },
+    "colouring": { "now": "a wall panel", "done": ["the door"], "progress": 0.31 },
+    "opened": "Chapter two, 2026"
+  },
+  {
+    "id": "chennai-besant", "name": "Waffle Story · Besant Nagar", "city": "Chennai",
+    "street": "2nd Avenue, Besant Nagar", "postcode": "600090", "region": "Tamil Nadu",
+    "hours": "11:00–23:30", "phone": "+91 00000 00000",
+    "map": { "x": 80, "y": 26 }, "geo": { "lat": 13.0002, "lng": 80.2668 },
+    "colouring": { "now": "the crayon stools", "done": [], "progress": 0.08 },
+    "opened": "Coming soon"
+  },
+  {
+    "id": "bengaluru-indiranagar", "name": "Waffle Story · Indiranagar", "city": "Bengaluru",
+    "street": "12th Main, Indiranagar", "postcode": "560038", "region": "Karnataka",
+    "hours": "11:00–23:00", "phone": "+91 00000 00000",
+    "map": { "x": 22, "y": 30 }, "geo": { "lat": 12.9719, "lng": 77.6412 },
+    "colouring": { "now": "the window frame", "done": ["the awning", "the door", "the plant"], "progress": 0.84 },
+    "opened": "Chapter one, 2026"
+  }
+]

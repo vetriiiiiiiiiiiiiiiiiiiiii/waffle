@@ -1,0 +1,63 @@
+{
+  "chapters": [
+    {
+      "id": "ch1", "number": 1, "title": "Once Upon a Butter",
+      "toppings": ["warm butter", "maple drizzle", "sea-salt flakes"],
+      "line": "Where every story starts.",
+      "price": { "page": 149, "moon": 289 }, "veg": true,
+      "allergens": ["gluten", "milk"], "colour": "butter",
+      "pip": "the classic. no notes."
+    },
+    {
+      "id": "ch2", "number": 2, "title": "The Chocolate Plot",
+      "toppings": ["dark chocolate", "milk chocolate", "white chocolate"],
+      "line": "Layered in that order. It matters.",
+      "price": { "page": 189, "moon": 349 }, "veg": true,
+      "allergens": ["gluten", "milk", "soy"], "colour": "lilac",
+      "pip": "three layers, one plot."
+    },
+    {
+      "id": "ch3", "number": 3, "title": "Happily Ever Berry",
+      "toppings": ["strawberries", "whipped cream", "berry jam"],
+      "line": "The ending you were hoping for.",
+      "price": { "page": 199, "moon": 369 }, "veg": true,
+      "allergens": ["gluten", "milk"], "colour": "strawberry",
+      "pip": "berry good ending."
+    },
+    {
+      "id": "ch4", "number": 4, "title": "The Mango Monologue",
+      "toppings": ["Alphonso mango cream"],
+      "line": "Summer only, so it's a limited edition by nature.",
+      "price": { "page": 219, "moon": 399 }, "veg": true,
+      "allergens": ["gluten", "milk"], "colour": "butter", "season": "summer",
+      "pip": "back in april."
+    },
+    {
+      "id": "ch5", "number": 5, "title": "Plot Twist",
+      "toppings": ["cheese", "herbs", "peri-peri kick"],
+      "line": "The savoury one. Nobody saw it coming.",
+      "price": { "page": 179, "moon": 329 }, "veg": true,
+      "allergens": ["gluten", "milk"], "colour": "mint",
+      "pip": "wait, it's savoury??"
+    },
+    {
+      "id": "ch6", "number": 6, "title": "Bedtime Story",
+      "toppings": ["caramel-biscuit crumble", "warm milk glaze"],
+      "line": "Best after 8 pm.",
+      "price": { "page": 199, "moon": 359 }, "veg": true,
+      "allergens": ["gluten", "milk", "soy"], "colour": "sky",
+      "pip": "read it in pyjamas."
+    }
+  ],
+  "footnotes": [
+    { "id": "fn1", "number": 1, "title": "Cold Coffee, Probably", "line": "Strong, sweet, a little dramatic.", "price": 129, "veg": true, "allergens": ["milk"], "colour": "toast" },
+    { "id": "fn2", "number": 2, "title": "Warm Milk Glaze Latte", "line": "Tastes like the last page of a good book.", "price": 149, "veg": true, "allergens": ["milk"], "colour": "sky" },
+    { "id": "fn3", "number": 3, "title": "Strawberry Milk, Obviously", "line": "Pink. Cold. No further questions.", "price": 119, "veg": true, "allergens": ["milk"], "colour": "strawberry" },
+    { "id": "fn4", "number": 4, "title": "Mint Eraser Lemonade", "line": "Wipes the afternoon clean.", "price": 99, "veg": true, "allergens": [], "colour": "mint" },
+    { "id": "fn5", "number": 5, "title": "Lilac Night Hot Chocolate", "line": "Pairs with The Moon and a long chat.", "price": 159, "veg": true, "allergens": ["milk", "soy"], "colour": "lilac" }
+  ],
+  "bonus": [
+    { "id": "bc1", "number": 1, "title": "Exam Season Special", "line": "Honey, banana and a page that says you've got this.", "price": 169, "veg": true, "allergens": ["gluten", "milk"], "colour": "butter", "season": "exam weeks" },
+    { "id": "bc2", "number": 2, "title": "The Monsoon Chapter", "line": "Hot chocolate drizzle, salted caramel, rain outside.", "price": 209, "veg": true, "allergens": ["gluten", "milk", "soy"], "colour": "sky", "season": "monsoon" }
+  ]
+}

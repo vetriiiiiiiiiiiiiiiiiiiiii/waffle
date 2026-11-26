@@ -1,0 +1,14 @@
+[
+  { "id": "d1", "by": "Anu, 6", "title": "my family and the waffle sun", "kind": "sun", "tags": ["week", "staff"], "magnet": "strawberry" },
+  { "id": "d2", "by": "Rohan, 19", "title": "pip on the bus", "kind": "pip", "tags": ["week"], "magnet": "sky" },
+  { "id": "d3", "by": "Meera, 22", "title": "golden page day!!", "kind": "star", "tags": ["golden", "week"], "magnet": "butter" },
+  { "id": "d4", "by": "Kabir, 17", "title": "the moon is a waffle", "kind": "moon", "tags": ["staff"], "magnet": "lilac" },
+  { "id": "d5", "by": "Divya, 24", "title": "a house that smells of butter", "kind": "house", "tags": ["week"], "magnet": "mint" },
+  { "id": "d6", "by": "Sam, 20", "title": "my cat, eating my waffle", "kind": "cat", "tags": ["staff", "week"], "magnet": "strawberry" },
+  { "id": "d7", "by": "Ishaan, 16", "title": "exam brain", "kind": "heart", "tags": ["week"], "magnet": "butter" },
+  { "id": "d8", "by": "Lakshmi, 27", "title": "my golden page, framed", "kind": "star", "tags": ["golden"], "magnet": "toast" },
+  { "id": "d9", "by": "Arjun, 21", "title": "waffle sun, rainy day", "kind": "sun", "tags": ["staff"], "magnet": "sky" },
+  { "id": "d10", "by": "Nila, 18", "title": "pip learns to skate", "kind": "pip", "tags": ["week", "staff"], "magnet": "mint" },
+  { "id": "d11", "by": "Zoya, 23", "title": "a tiny flower", "kind": "flower", "tags": ["week"], "magnet": "lilac" },
+  { "id": "d12", "by": "Vikram, 25", "title": "golden page hunt winner", "kind": "moon", "tags": ["golden", "staff"], "magnet": "butter" }
+]

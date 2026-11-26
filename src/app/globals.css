@@ -1,0 +1,458 @@
+@import "tailwindcss";
+
+/* ───────────── Waffle Story tokens ───────────── */
+:root {
+  --paper: #fbf6ec;
+  --pencil: #26211d;
+  --butter: #f6d776;
+  --strawberry: #f4b6c2;
+  --mint: #bfe3d0;
+  --sky: #b9d4f1;
+  --lilac: #d3c4ee;
+  --toast: #e9b562;
+  --pink-pen: #c9506d;
+  --blue-pen: #2f5fa8;
+  /* pink pen darkened for small text so it passes AA on paper (5.0:1) */
+  --pink-pen-text: #b23d5b;
+  --rule: #b9d4f1;
+  --margin: #e58fa3;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-pencil: var(--pencil);
+  --color-butter: var(--butter);
+  --color-strawberry: var(--strawberry);
+  --color-mint: var(--mint);
+  --color-sky: var(--sky);
+  --color-lilac: var(--lilac);
+  --color-toast: var(--toast);
+  --color-pink-pen: var(--pink-pen);
+  --color-blue-pen: var(--blue-pen);
+  --font-hand: var(--font-gaegu), "Comic Sans MS", cursive;
+  --font-serif: "TeX Gyre Schola", var(--font-gelasio), "Century Schoolbook", Georgia, serif;
+  --font-type: var(--font-courier), "Courier New", monospace;
+}
+
+/* ───────────── Base: the page itself ───────────── */
+html {
+  background: var(--paper);
+  color: var(--pencil);
+  -webkit-text-size-adjust: 100%;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.55;
+  background-color: var(--paper);
+  background-image: url("/textures/paper.png");
+  background-size: 128px 128px;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--butter);
+  color: var(--pencil);
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.font-type {
+  font-family: var(--font-type);
+}
+
+/* Paper grain overlay (feTurbulence, 4%) */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+}
+
+@layer base {
+  /* Focus: a hand-drawn ring */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2.5px dashed var(--blue-pen);
+  outline-offset: 5px;
+}
+
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--butter);
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ───────────── LINE BOIL ─────────────
+   Three displacement states, swapped at ~9fps with steps (no tweening). */
+@keyframes boil {
+  0% {
+    filter: url(#boil-0);
+  }
+  33.33% {
+    filter: url(#boil-1);
+  }
+  66.66% {
+    filter: url(#boil-2);
+  }
+  100% {
+    filter: url(#boil-0);
+  }
+}
+.boil {
+  animation: boil 0.36s steps(1, end) infinite;
+}
+.boil.is-paused {
+  animation-play-state: paused;
+}
+
+/* ───────────── Stepped wobble (buttons, stickers) ───────────── */
+@keyframes wobble {
+  0% {
+    transform: rotate(-2deg);
+  }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(-1deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(-2deg);
+  }
+}
+.wobble-on-hover:hover,
+.wobble-on-hover:focus-visible {
+  animation: wobble 0.5s steps(4, end) infinite;
+}
+
+/* Squiggle underline that draws on hover */
+.squiggle-link {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+}
+.squiggle-link svg {
+  position: absolute;
+  left: 0;
+  bottom: -0.35em;
+  width: 100%;
+  height: 0.5em;
+  overflow: visible;
+  pointer-events: none;
+}
+.squiggle-link svg path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.45s steps(6, end);
+}
+.squiggle-link:hover svg path,
+.squiggle-link:focus-visible svg path,
+.squiggle-link[aria-current="page"] svg path {
+  stroke-dashoffset: 0;
+}
+
+/* Ruled notebook paper */
+.ruled {
+  background-color: #fffdf7;
+  background-image:
+    linear-gradient(to right, transparent 3.1rem, var(--margin) 3.1rem, var(--margin) calc(3.1rem + 1.5px), transparent calc(3.1rem + 1.5px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.9rem - 1px), var(--rule) calc(1.9rem - 1px), var(--rule) 1.9rem);
+  background-position: 0 1.3rem;
+}
+
+/* Masking tape */
+.tape {
+  position: absolute;
+  width: 92px;
+  height: 26px;
+  background: rgba(233, 222, 196, 0.72);
+  clip-path: polygon(3% 8%, 97% 0, 100% 50%, 96% 100%, 2% 92%, 0 46%);
+  z-index: 2;
+}
+
+/* Sticky-note edge curl, drawn with a pencil corner */
+.sticky-curl::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, transparent 50%, rgba(38, 33, 29, 0.12) 50%);
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+}
+
+/* Visually hidden */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom cursor area */
+@media (hover: hover) and (pointer: fine) {
+  html.has-crayon-cursor,
+  html.has-crayon-cursor * {
+    cursor: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boil {
+    animation: none !important;
+    filter: none !important;
+  }
+  .wobble-on-hover:hover,
+  .wobble-on-hover:focus-visible {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Write-on: hidden until .is-playing (added on view, or rendered with it for first-paint titles). */
+.js-motion [data-writeon]:not(.is-playing) .glyph {
+  clip-path: inset(-20% 100% -20% 0);
+}
+.js-motion [data-writeon]:not(.is-playing) .hl-band {
+  transform: scaleX(0);
+}
+.js-motion [data-reveal]:not(.is-in) {
+  opacity: 0;
+}
+@media (max-width: 767px) {
+  .paper-grain {
+    display: none;
+  }
+}
+.js-motion .mask-path {
+  stroke-dashoffset: 1;
+}
+html:not(.js-motion) .o-grid {
+  display: none;
+}
+
+/* CSS-driven draw-on for above-the-fold art and titles: starts at first paint, no JS needed. */
+@keyframes draw-on {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes write-on {
+  from {
+    clip-path: inset(-20% 100% -20% 0);
+  }
+  to {
+    clip-path: inset(-20% -10% -20% 0);
+  }
+}
+@keyframes band-on {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.js-motion .art-reveal.is-playing .mask-path {
+  animation: draw-on var(--dur, 0.6s) var(--ease, cubic-bezier(0.3, 0.7, 0.4, 1)) var(--delay, 0s) both;
+}
+.js-motion [data-writeon].is-playing .glyph {
+  animation: write-on 0.18s steps(4, end) calc(var(--base, 0s) + var(--i, 0) * 40ms) both;
+}
+.js-motion [data-writeon].is-playing .hl-band {
+  transform-origin: 0 50%;
+  animation: band-on 0.5s steps(8, end) calc(var(--base, 0s) + var(--n, 0) * 40ms) both;
+}
+
+/* ───────────── Hero sequence (pure CSS, starts at first paint) ───────────── */
+@keyframes bloom {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes pip-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes pip-wave {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+@keyframes card-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-260px) rotate(-24deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(7deg);
+  }
+}
+@keyframes tape-on {
+  from {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.js-motion .o-wash {
+  animation: bloom 0.6s steps(8, end) 2.1s both;
+}
+.js-motion .o-grid {
+  animation: fade-out 0.2s steps(3, end) 2.7s both;
+}
+.js-motion .pip-pop {
+  animation: pip-rise 0.45s steps(6, end) 2.5s both;
+}
+.js-motion .pip-pop img {
+  transform-origin: 50% 90%;
+  animation: pip-wave 0.5s steps(4, end) 3s 4 alternate both;
+}
+.js-motion .hero-card {
+  animation: card-drop 0.7s steps(8, end) 2.4s both;
+}
+.js-motion .hero-card .tape {
+  animation: tape-on 0.25s steps(3, end) 3.1s both;
+}
+.js-motion .hero-cta {
+  animation: rise-in 0.4s steps(5, end) var(--d, 1.2s) both;
+}
+.js-motion .hero-doodle {
+  animation: pop-in 0.3s steps(4, end) var(--d, 3s) both;
+}
+
+/* Page transition: the old sheet turns away */
+@keyframes page-turn {
+  from {
+    clip-path: inset(0 0 0 0);
+    transform: perspective(1400px) rotateY(0deg);
+  }
+  to {
+    clip-path: inset(0 0 0 100%);
+    transform: perspective(1400px) rotateY(-14deg);
+  }
+}
+.page-turn {
+  transform-origin: 0% 50%;
+  animation: page-turn 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-turn {
+    display: none;
+  }
+}
+
+/* Chapters notebook page turn (stepped, like flipping a real page) */
+@keyframes page-swing-out {
+  0% {
+    transform: perspective(1800px) rotateY(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1800px) rotateY(-110deg);
+    opacity: 0;
+  }
+}
+.page-swing-out {
+  animation: page-swing-out 0.6s steps(8, end) both;
+}
+.page-swing-in {
+  animation: page-swing-out 0.6s steps(8, end) reverse both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-swing-out {
+    display: none;
+  }
+  .page-swing-in {
+    animation: none;
+  }
+}
