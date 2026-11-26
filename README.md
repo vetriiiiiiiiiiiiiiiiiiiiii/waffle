@@ -17,6 +17,8 @@ npm run build && npm start   # production
 
 Set `NEXT_PUBLIC_SITE_URL` in production so Open Graph and schema.org URLs are absolute.
 
+**Deploying to a VPS** (Node + PM2 + Nginx + HTTPS): see [DEPLOY.md](DEPLOY.md). It's one script.
+
 ## The pages
 
 | Route | What it is |
